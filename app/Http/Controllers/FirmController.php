@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Firm;
 use Illuminate\Http\Request;
 
 class FirmController extends Controller
@@ -13,7 +14,27 @@ class FirmController extends Controller
      */
     public function index()
     {
-        //
+        $firms = Firm::all();
+
+        $header = 'Firms';
+        return view('index', compact('firms', 'header'));
+    }
+
+    public function getByPhonesCount(Request $request)
+    {
+        $firms = Firm::getByPhonesCount($request->phones, $request->param);
+        $header = 'Phones '.$request->param.' '.$request->phones;
+        return view('index', compact('firms', 'header'));
+    }
+
+    public function maxium()
+    {
+        $firm = Firm::maxium();
+        $max = $firm->phones->count();
+        $header = 'Maxium';
+        $firms = collect([$firm]);
+
+        return view('index', compact('firms', 'header' , 'max'));
     }
 
     /**
