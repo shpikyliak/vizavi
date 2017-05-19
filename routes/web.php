@@ -21,3 +21,4 @@ Route::post('/login', 'UserController@auth');
 Route::get('/logout', 'UserController@logout');
 Route::get('/messages/{id}/delete', 'MessageController@delete');
 Route::get('/messages/{id}/edit', 'MessageController@edit');
+Route::post('/messages/{id}/edit', 'MessageController@update');

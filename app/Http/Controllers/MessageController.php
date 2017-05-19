@@ -55,6 +55,33 @@ class MessageController extends Controller
 
     public function edit($id)
     {
-        return view('editMessage');
+        $message = Message::find($id);
+        return view('editMessage', compact('message'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $rules = array(
+            'email' => 'required|email',
+            'name' => 'required|min:2',
+            'message' => 'required|min:8'
+        );
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            flash($validator->messages())->error();
+            return redirect('/messages/'.$id.'/edit');
+        }
+
+        $message = Message::find($id);
+        $message->email = $request->email;
+        $message->name = $request->name;
+        $message->message = $request->message;
+
+        $message->update();
+
+        flash('Success')->success();
+
+        return redirect('/messages');
+
     }
 }
