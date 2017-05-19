@@ -13,7 +13,12 @@ class CreatePhonesTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('phones', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('firm_id');
+            $table->string('phone');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class CreatePhonesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('phones');
     }
 }
